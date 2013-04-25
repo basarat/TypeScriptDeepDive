@@ -29,21 +29,15 @@
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
 
-        <!--Custom Scripts-->
-        <script>
-
-        </script>
-
 	</head>
 
 	<body>
-
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 
-				<section>
+				<section data-state="gitshow">
 					<h1>TypeScript</h1>
                     <h2>Deep Dive</h2>
                     <p>
@@ -54,7 +48,7 @@
 					</p>
 				</section>
 
-				<section>
+				<section data-state="githide">
 					<h2>Fundamentals</h2>
                     <ul>
                         <li>Strong Typing</li>
@@ -329,7 +323,7 @@ function linkify( selector ) {
 					</ul>
 				</section>
 
-				<section>
+				<section data-state="githide">
 					<h2>It's free</h2>
 					<p>
 						reveal.js and <a href="http://www.rvl.io">rvl.io</a> are entirely free but if you'd like to support the projects you can donate below.
@@ -347,17 +341,22 @@ function linkify( selector ) {
 					</form>
 				</section>
 
-				<section>
+				<section data-state="gitshow">
 					<h1>THE END</h1>
-					<h3>BY Hakim El Hattab / hakim.se</h3>
+					<h2>BAS</h1>
+                    <h3>(Basarat Ali Syed)</h3>
+                        <a href="http://basarat.com">basarat.com</a></h3>
 				</section>
 
 			</div>
 
 		</div>
 
+        <a class="github" href="https://github.com/basarat" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
 		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.min.js"></script>
+		<script src="js/reveal.js"></script>
+        <script type="text/javascript" src="lib/jquery.js"></script>
 
 		<script>
 
@@ -386,6 +385,24 @@ function linkify( selector ) {
 			});
 
 		</script>
+
+        <!--Custom Scripts-->
+        <script>
+
+            Reveal.addEventListener( 'githide', function() {
+                var git =$(".github");
+                git.fadeOut();
+            } );
+            Reveal.addEventListener( 'gitshow', function() {
+                var git =$(".github");
+                git.fadeIn();
+            } );
+
+//            Reveal.addEventListener( 'slidechanged', function() {
+//                git.fadeOut();
+//            } );
+
+        </script>
 
 	</body>
 </html>
