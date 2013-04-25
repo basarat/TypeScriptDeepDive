@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app>
 
 	<head>
 		<meta charset="utf-8">
@@ -37,7 +37,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 
-				<section data-state="gitshow">
+				<section class="git" data-state="git">
 					<h1>TypeScript</h1>
                     <h2>Deep Dive</h2>
                     <p>
@@ -48,7 +48,7 @@
 					</p>
 				</section>
 
-				<section data-state="githide">
+				<section>
 					<h2>Fundamentals</h2>
                     <ul>
                         <li>Strong Typing</li>
@@ -317,7 +317,7 @@ function linkify( selector ) {
 					</ul>
 				</section>
 
-				<section data-state="githide">
+				<section>
 					<h2>It's free</h2>
 					<p>
 						reveal.js and <a href="http://www.rvl.io">rvl.io</a> are entirely free but if you'd like to support the projects you can donate below.
@@ -335,7 +335,7 @@ function linkify( selector ) {
 					</form>
 				</section>
 
-				<section data-state="gitshow">
+				<section class="git" data-state="git">
 					<h1>THE END</h1>
 					<h2>BAS</h2>
                     <h3>(Basarat Ali Syed)</h3>
@@ -351,6 +351,7 @@ function linkify( selector ) {
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
         <script type="text/javascript" src="lib/jquery.js"></script>
+        <script type="text/javascript" src="lib/angular.js"></script>
 
 		<script>
 
@@ -383,18 +384,17 @@ function linkify( selector ) {
         <!--Custom Scripts-->
         <script>
 
-            Reveal.addEventListener( 'githide', function() {
-                var git =$(".github");
-                git.fadeOut();
-            } );
-            Reveal.addEventListener( 'gitshow', function() {
-                var git =$(".github");
-                git.fadeIn();
-            } );
+            Reveal.addEventListener( 'slidechanged', function(data) {
+                var currentSlide = $(data.currentSlide);
 
-//            Reveal.addEventListener( 'slidechanged', function() {
-//                git.fadeOut();
-//            } );
+                // show git?
+                var git = $(".github");
+                if(currentSlide.hasClass("git"))
+                    git.fadeIn();
+                else
+                    git.fadeOut();
+
+            } );
 
         </script>
 
