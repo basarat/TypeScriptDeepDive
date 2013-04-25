@@ -3,4 +3,4 @@ TypeScriptEd
 
 You complete TypeScript education
 
-view: http://basarat.github.io/TypeScriptEd
+view it online : http://basarat.github.io/TypeScriptEd
