@@ -736,7 +736,8 @@ Keep functions for:
 					</section>
 					<section>
 						<h2>Pattern</h2>
-						When your class is just a collection of functions other people would call
+						When your class is just a collection of functions other people would call. 
+						
 						<codeseg>
 class Example{
 	func1:(number)=>void;
@@ -750,7 +751,8 @@ class Example{
 	}
 }
 						</codeseg>
-						Useful for libs like knockout. 
+						The body needs to seperate from declaration since this is only available in constructor / member functions.
+						<br><br>Useful for libs like knockout. 
 					</section>
 					
 				</section> 		
@@ -857,11 +859,31 @@ Array.prototype.shuffle = function () { ... };
 // error 
 var x:HTMLCanvasElement	= document.getElementById("canvasId");
 // valid 
-var y:HTMLCanvasElement = &lt;HTMLCanvasElement&gt;document.getElementById("canvasId");
+var y:HTMLCanvasElement = 
+	< HTMLCanvasElement > document.getElementById("canvasId");
 // type inferred 	  
-var z = &lt;HTMLCanvasElement&gt;document.getElementById("canvasId");  
+var z = 
+	&lt; HTMLCanvasElement &gt; document.getElementById("canvasId");
 						</codeseg>
-						Not type casting since you are only telling the compiler what to think, not actually changing what it is.
+						Should not be called type casting.
+					</section>
+				</section> 				
+				
+				<section>
+					<section><h1>Declaration Spaces</h1>A binary compartment.</section>					
+					<section>
+						<h2>template</h2>
+						<codeseg>
+						</codeseg>
+					</section>
+				</section> 				
+
+				<section>
+					<section><h1>More Patterns</h1>Not patents, patterns!</section>					
+					<section>
+						<h2>template</h2>
+						<codeseg>
+						</codeseg>
 					</section>
 				</section> 								
 				
@@ -875,20 +897,23 @@ var z = &lt;HTMLCanvasElement&gt;document.getElementById("canvasId");
 				</section> 				
 
 				<section>
-				Also, 												
+				Also,
 				exploit declration spaces for interface static members 
-				declaration space and why you must import a module and not say var
-				type assertion : i'm smarter than you. e.g. when getting a canvas 
+				declaration space and why you must import a module and not say var				
 				Pattern : static constructor 
 				</section>
 				
 				<section>
-					<h2>Tips</h2>
-					<ul>
-						<li>Think of your javascript as your call stack. Don't debug your Typescript.</li>						
-						<li>Know your javascript. Don't use arguments as a variable name. Know what a prototype is.</li>						
-						<li>Any valid javascript is valid typescript. Not unless you tell it</li>						
-					</ul>
+					<section><h1>General Tips</h1></section>					
+					<section>
+						<h2>Additional Lessons</h2>
+							<ul>
+								<li class="fragment">It is possible to start one file at a time.</li>						
+								<li class="fragment">Don't debug your Typescript.</li>						
+								<li class="fragment">Know your javascript.<ul><li>Don't use arguments as a variable name. Know what a prototype is.</li></ul></li>
+								<li class="fragment">Any valid javascript is valid typescript: <ul><li> Not unless you tell it e.g. everything must be declared, type casting htmlelements</li></ul></li>
+							</ul>
+					</section>
 				</section>
 
 				<section>
