@@ -8,8 +8,17 @@ define(["require", "exports", "angular", "showdown"], function(require, exports)
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-                var htmlText = converter.makeHtml(element.text());
+                var htmlText = converter.makeHtml($.trim(element.text()));
                 element.html(htmlText);
+            }
+        };
+    });
+    exports.app.directive("codeseg", function () {
+        return {
+            restrict: 'E',
+            link: function (scope, element, attrs) {
+                var htmlText = $.trim(element.text());
+                element.html('<pre><code contenteditable>' + htmlText + '</code></pre>');
             }
         };
     });

@@ -8,13 +8,25 @@ var angular = require("angular");
 var Showdown = require("showdown");
 
 export var app = angular.module("mainApp",[],function(){});
+
 app.directive("markdown",function(){
     var converter = new Showdown.converter();
     return{
         restrict: 'E',
         link:function(scope,element,attrs) {
-            var htmlText = converter.makeHtml(element.text());
+            var htmlText = converter.makeHtml($.trim(element.text()));
             element.html(htmlText);
         }
     }
 });
+
+app.directive("codeseg",function(){
+    return{
+        restrict: 'E',
+        link:function(scope,element,attrs) {
+            var htmlText = $.trim(element.text());
+            element.html('<pre><code contenteditable>'+htmlText+'</code></pre>');
+        }
+    }
+});
+
