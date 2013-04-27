@@ -375,11 +375,174 @@ var __extends = this.__extends || function(d, b) {
 </codeseg> 
 <a href="http://typescript.codeplex.com/workitem/825">work item</a>
 					</section>
+					
+					
+					<section>
+						<h2>super</h2>						
+						<codeseg>
+class base {
+	test(foo:number){
+		console.log(foo);
+	}
+}
+class child extends base{
+	constructor(public x:number){
+		super();				 	
+		super.test(x); // 15
+		this.test(x); // 25 		
+	}
+	test(foo:number){
+		console.log(foo+10);
+		
+	}
+}
+var test=new child(15);
+						</codeseg>
+					</section>
+					
+					<section>
+					<h2>super</h2>
+					super called via call<br/>super (dot) goes directly to prototype
+					<codeseg>
+function child(x) {
+	_super.call(this);
+	this.x = x;
+	_super.prototype.test.call(this, x);
+	this.test(x);
+}					
+					</codeseg>
+					</section>
 					<section>
 						<h2>Super Cautious</h2>
-						
+						<codeseg>
+class A{
+	fooMem=10;	
+}
+class B extends A{
+	constructor(){
+		console.log(this.fooMem); // undefined 
+		super();		
+		console.log(this.fooMem);
+		console.log(super.fooMem); // undefined 		
+	}
+};
+var test = new B();						
+						</codeseg>						
+						Make super first call and only use for function access afterwords. 
 					</section>
 				</section> 
+				
+				<section>
+					<section><h1>this</h1> which one? </section>					
+					<section>						
+						<h2>Save me</h2>
+						<markdown>
+						Typescript knows. But doesn't mean it will save you.  
+						
+- Constructor / member functions
+ - *this* a type of containing class 
+- Static functions
+ - *this* is of type constructor function
+- All other places its any
+						</markdown>
+					</section>
+					<section>
+						<h2>Err</h2>
+						Typescript will complain if you miss this. It will say member not defined. So novice way is to put in this. 
+						<codeseg>
+class Example{
+	member = 10; 
+	constructor(){		
+		// Could have been an jquery call
+		// you were porting from js
+		setTimeout(function() {
+			alert(this.member);
+		},100);
+	}	
+}
+var ex = new Example();
+						</codeseg>
+					</section>
+					<section>
+						<h2>Arrow Functions</h2>
+						<codeseg>
+// all of these are the same
+var test1=(x:number)=>{return x*10};
+var test2=(x:number)=>(x*10);
+var test3=(x:number)=>x*10;
+var test4=(x)=>x*10;
+var test5=x=>x*10;
+
+// {} require a return statement
+// This is actually returning undefined
+// which is a valid number and fails silently 
+var test6=(x:number)=>{x*10};						
+						</codeseg>						
+					</section>						
+						<section>
+						<h2>Arrow Functions</h2>
+							For lexical scoping.
+						<codeseg>
+var foo = () => {return this;}					
+						</codeseg>
+					generates:
+						<codeseg>
+var _this = this;
+var foo = function () {
+    return _this;
+};					
+						</codeseg>
+					</section>
+					<section>
+						<h2>Err Fix</h2>						
+						<codeseg>
+				
+class Example{
+	member = 10; 
+	constructor(){		
+		// Could have been an jquery call
+		// you were porting from js
+		setTimeout(()=>{
+			alert(this.member);
+		},100);
+	}	
+}
+var ex = new Example();
+					</section>
+					<section>
+						<h2>So basically</h2>											
+						Replace all functions in arguments with ()=> 
+					</section>
+					<section>
+						<h2>Almost</h2>
+						<markdown>
+Keep functions for: 
+
+- When you want this to be any. E.g. $.each. 
+- When you need both. Then resort to the manual closure trick of  var self = this; 
+						</markdown>
+					</section>
+					<section>
+						<h2>Pattern</h2>
+						When your class is just a collection of functions other people would call
+						<codeseg>
+class Example{
+	func1:(number)=>void;
+	func2:()=>number;
+	
+	member:number = 10;
+	
+	constructor(){
+		this.func1=(x)=>{this.member=x};
+		this.func2=()=>this.member;		
+	}
+}
+						</codeseg>
+						Useful for libs like knockout. 
+					</section>
+					
+				</section> 		
+				
 				
 				<section>
 					<section><h1>Structural Typing</h1></section>					
@@ -394,10 +557,11 @@ var __extends = this.__extends || function(d, b) {
 				</section> 				
 
 				<section>
-				Also, Structural typing
-				implicit typing and any 
-				arrays 	
-				
+				Also, 
+				Structural typing
+				implicit typing and any arrays 	
+				this hell 
+				extending builtint types
 				</section>
 				
 				<section>
@@ -405,6 +569,7 @@ var __extends = this.__extends || function(d, b) {
 					<ul>
 						<li>Think of your javascript as your call stack. Don't debug your Typescript.</li>						
 						<li>Know your javascript. Don't use arguments as a variable name. Know what a prototype is.</li>						
+						<li>Any valid javascript is valid typescript. Not unless you tell it</li>						
 					</ul>
 				</section>
 
