@@ -6,7 +6,7 @@ define(["require", "exports", "angular"], function(require, exports) {
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-                return "markdown baby";
+                element.html("asdf");
             }
         };
     });
