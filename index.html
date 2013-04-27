@@ -40,10 +40,9 @@
 
             <section class="git" data-state="git">
 					<h1>TypeScript</h1>
-                    <h2>Deep Dive</h2>
-                    <p>
-                        A look into the intricacies of the language and its usage in real world scenarios.
-                    </p>
+                    <h2>Deep Dive</h2>                    
+					<p>Specification * Recommendations * Patterns</p>
+					<br/>
 					<p>
 						<small>Created by <a href="http://basarat.com">BAS (Basarat Ali Syed)</a> / <a href="http://twitter.com/basarat">@basarat</a></small>
 					</p>
@@ -69,14 +68,21 @@ Strong Typing
 ---
 
 - Interfaces
+- Inline typing (type declarations)
 - Ambients
  - Variable
  - Functions
  - Classes
  - Modules
 
+	
 					    </markdown>
                     </section>
+				</section>
+				
+				<section>
+					<section><h1>Interfaces</h1> What do you want from me?</section>	
+					
 					<section>
 						<h2>Interfaces</h2>
 						<codeseg>
@@ -113,6 +119,116 @@ interface fooInterface{
 }
                             </codeseg>
 					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Declaration</h1>What is that?
+					</section>
+					<section> 
+						<h2>Type Annotation</h2>
+						<codeseg>
+var x:number;
+var y:string;
+var z:number[];
+var foo:{a:any;b:()=>any;} // powerful inline declaration
+						<codeseg>						
+					</section> 
+					<section> 
+						<h2>Type Inference</h2>							
+						<codeseg>
+var x = 123;
+var y; 
+y = 123;
+
+x = "asdf"; 
+y = "asdf"; 
+						</codeseg>
+						What type is y?
+						Does the compiler give an error in this code segment?
+					</section> 
+					
+					<section>
+						<h2>any</h2>							
+						<codeseg>
+var x:any;
+var y:number = x;
+x = y;	
+						</codeseg>
+						Can be assigned to anything. Can be assigned anything. 						
+					</section>			
+					
+					<section>
+						<h2>null, undefined</h2>							
+						Typescript: For compiler (not runtime) both are type any. 						
+						<codeseg>
+var x = null;
+var y = undefined;		
+						</codeseg>
+						Javascript: null is an object instance to mean nothing. undefined is a type as well as a value for something not initialized. 
+						<codeseg>
+var TestVar;
+alert(TestVar); //shows undefined
+alert(typeof TestVar); //shows undefined
+
+var TestVar = null;
+alert(TestVar); //shows null
+alert(typeof TestVar); //shows object
+						</codeseg>						
+					</section>			
+						
+					<section>
+						<h2>Which string is that?</h2>
+						<codeseg>
+var obj:String = "123";
+var primitive:string = "123";
+
+obj=primitive; // exactly what the first line is doing
+primitive=obj; // Error  
+						</codeseg>
+						Recommendation: Just use string.
+					</section>
+					
+					<section>
+						<h2>inline declarations</h2>
+						Offer the complete Interface syntax but inline. Syntax:
+						<codeseg>
+var __varname__: { 
+	__membername__ : __membertype__ ;
+	__membername__ : __membertype__ ;
+	// Repeat
+}
+						</codeseg>
+						e.g:
+						<codeseg>
+var x:{ 
+	() : Function; 
+	[foo:string]: number;
+	new() : string;
+}
+						</codeseg>
+					</section>		
+					
+					<section>
+						<h2>Function signature<h2>
+						<codeseg>
+// interface / inline interface implementation
+interface fooInterface{	
+	simpleSyntax():void;
+	lambdaSyntax:()=>void;
+}
+
+var fooInline:{	
+	simpleSyntax():void;
+	lambdaSyntax:()=>void;
+}
+						</codeseg>
+					</section>
+				</section>
+					
+				<section>			
+				
+					<section><h1>Ambients</h1>I thought I saw a pussy cat</section>
 					<section>
 						<h2>Ambients</h2>
 <markdown>The magical keyword is ***declare***.
@@ -152,11 +268,10 @@ declare class Fancy{
                     </section>
                 </section>
 
-
 				<section>
 					<section>
 						<h1>Functions</h1>
-						Now just functions
+						are actually functions
 					</section>					
 					<section>
 						<h2> Optional </h2> 
@@ -229,6 +344,7 @@ class Foo implements IFoo {
 					</section>
 					<section>
 						<h2>Function overloading</h2>
+						How to handle variable parameters
 						<codeseg>
 function f():number; // Error 
 function f(x:any):any{
@@ -239,8 +355,34 @@ function g(x?:any):any{
 }
 
 						</codeseg>
-						PS: don't need to be in a class. 
-					</section> 
+						Don't need to be in a class. 						
+						
+					</section>
+					
+					<section>
+						<h2>Function Instances</h2>
+						<codeseg>
+// global or module 
+function simpleSyntax():void{}
+var lambdaSyntax1=():void=>{}
+
+// class , basically remove function or var
+class fooClass{
+	simpleSyntax():void{}
+	lambdaSyntax=():void=>{}	
+}
+
+// object literal 
+var fooObject={
+	simpleSytax: function():void{},
+	lambdaSyntax: ():void=>{}	
+}
+
+// Reminder the lambda based signature was a bit different: 
+// lambdaSyntax:()=>void;
+						</codeseg> 
+					</section>		
+					
 				</section>
 				<section>
 					<section>
@@ -248,7 +390,7 @@ function g(x?:any):any{
 						Now called class 
 					</section>
 					<section>
-						<h2>Basic</h2>
+						<h2>Basic</h2>						
 						<codeseg>
 class Foo{
 	public member:number;
@@ -262,6 +404,7 @@ class Foo{
 	}
 }
 						</codeseg>
+						Note: to access members you ALWAYS have to use this
 					</section>
 					<section>
 						<h2>Basic</h2>
@@ -306,14 +449,81 @@ var Foo = (function () {
     return Foo;
 })();
 						</codeseg>						
+					</section>					
+					
+					<section>
+						<h2>Interface implementation</h2>
+						Primarily for the person implementing the class. The class can be used in place of the interface even if it doesn't explictly implement that interface. 
+						<codeseg>
+interface iFoo{
+	x:number;
+}
+class Foo1 implements iFoo{
+	x:number;
+}
+class Foo2{
+	x:number;
+}
+
+var la:iFoo;
+la = new Foo1();
+la = new Foo2(); 
+						</codeseg> 
+					</section>		
+
+					<section>
+						<h2>Class have their own brand</h2>
+						<codeseg>
+interface iFoo{
+	x:number;
+}
+class Foo1 implements iFoo{
+	x:number;
+}
+class Foo2{
+	x:number;
+}
+
+var la:iFoo;
+la = new Foo1();
+la = new Foo2(); 
+
+var fa:Foo1 = new Foo2(); //Error 
+						</codeseg>
 					</section>
 					
 					<section>
                         <h2>Syntax Limitations</h2>
                         <p>
-                            Not everthing that can be declared in an interface can be implemented by a class e.g. Indexible
+                            Not everthing that can be declared in an interface can be implemented by a Typescript class e.g. Indexible, call signatures
                         </p>
+						<codeseg>
+interface WidgetMap {
+    [name: string]: Widget;
+}
+
+var map: WidgetMap = {};
+map['gear'] = new GearWidget();
+var w = map['gear']; // w is inferred to type Widget
+						</codeseg>
                     </section>
+					
+					<section>
+						<h2>Optional members?</h2>						
+						<codeseg>
+interface foo{
+	x?:number;
+}
+
+class boo1 implements foo{		
+}
+
+class boo2 implements foo{
+	x:number;	
+}
+						</codeseg>
+					</section>
+					
 				</section>
 				
 				<section>
@@ -547,6 +757,9 @@ class Example{
 				<section>
 					<section><h1>Structural Typing</h1></section>					
 					<section>
+					<codeseg>
+
+					</codeseg> 
 					</section>
 				</section> 				
 				
@@ -559,9 +772,12 @@ class Example{
 				<section>
 				Also, 
 				Structural typing
-				implicit typing and any arrays 	
-				this hell 
+				implicit typing and any arrays 					
 				extending builtint types
+				exploit declration spaces for interface static members 
+				declaration space and why you must import a module and not say var
+				type coersion : i'm smarter than you. e.g. when getting a canvas 
+				Pattern : static constructor 
 				</section>
 				
 				<section>
@@ -791,7 +1007,9 @@ function linkify( selector ) {
 					<h1>THE END</h1>
 					<h2>BAS</h2>
                     <h3>(Basarat Ali Syed)</h3>
-                        <a href="http://basarat.com">basarat.com</a></h3>
+					basarataliATgmail.com<br><br>
+                    <a href="http://basarat.com">basarat.com</a><br>
+					<a href="http://twitter.com/basarat">@basarat</a><br/>					
 				</section>
 
 			</div>
