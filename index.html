@@ -36,14 +36,6 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-            <section>
-                <markdown>
-asdf
--
-- point one
-- poitn two
-                </markdown>
-            </section>
 
 
             <section class="git" data-state="git">
@@ -71,47 +63,111 @@ asdf
 
 				<!-- Example of nested vertical slides -->
 				<section>
-					<section>
-						<h2>Strong Typing</h2>
-							Interfaces
-                            Ambients
-                            -Classes
-                            -Variables
-                            -Modules
+                    <section>
+					    <markdown>
+Strong Typing
+---
 
+- Interfaces
+- Ambients
+ - Variable
+ - Functions
+ - Classes
+ - Modules
+
+					    </markdown>
+                    </section>
+					<section>
+						<h2>Interfaces</h2>
+						<pre><code contenteditable="">
+interface fooInterface{
+    // constructor
+    new (fooParam1:number,fooParam2?):number;
+
+    // call signature callable without new
+    (fooParam1:any):string;
+
+    // indexable
+    [index:string]:number;
+}
+                        </code></pre>
+					</section>
+                    <section>
+						<h2>Interfaces</h2>
+						<pre><code contenteditable="">
+interface fooInterface{
+    // functions with overloads
+    fooFunc1(fooParam1:bool):any;
+    fooFunc2(...fooParam1:number[]):any;
+    fooFunc3:(fooParam1:bool)=>any;
+
+    // variables
+    fooVar1:number;
+    fooVar2?:Array;
+
+    // array
+    fooArr1:{
+        [index:string]:number;
+    };
+    fooArr2:number[];
+}
+                            </code></pre>
 					</section>
 					<section>
-						<h2>Basement Level 1</h2>
-						<p>Press down or up to navigate.</p>
+						<h2>Ambients</h2>
+<markdown>The magical keyword is ***declare***.
+
+Generate no code whatsoever so obviously
+
+- no variable initializer
+- no function bodies / no default parameters</markdown>
 					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>Cornify</p>
-						<a class="test" href="http://cornify.com">
-							<img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 3</h2>
-						<p>That's it, time to go back up.</p>
-						<a href="#/2" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
-					</section>
+                    <section>
+                        <h2>Ambients</h2>
+                        <pre><code contenteditable="">
+declare var angular;
+declare function foo(takes:string):number;
+declare class Fancy{
+    notMuch:string;
+}</code></pre>
+                    </section>
+
 				</section>
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview. Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
+                <section>
+                    <section>
+                    <h2>Better Syntax</h2>
+<markdown>- Function signatures
+ - Optional parameters
+ - Rest parameters
+ - Default parameters
+ - Arrow Functions
+- Classes
+ - super
+ - public / private
+- Modules
+ - AMD</markdown>
+                    </section>
+
+                    <section>
+                        <h2>Syntax Limitations</h2>
+                        <p>
+                            Not everthing that can be declared in an interface can be implemented with this new syntax
+                        </p>
+                    </section>
+                </section>
+
+
 
 				<section>
-					<h2>rvl.io</h2>
-					<p>
-						If you don't like writing slides in HTML you can use the online editor <a href="http://www.rvl.io" target="_blank">rvl.io</a>.
-					</p>
+					<h2>Function overloading</h2>
+					<codeseg>
+// function overloading only in the interface 
+interface IFoo{
+    test(x:string);
+    test(x:number);
+}
+					</codeseg>
 				</section>
 
 				<section>
@@ -379,6 +435,8 @@ function linkify( selector ) {
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
