@@ -2,7 +2,8 @@ require.config({
     baseUrl: './scripts',
     paths: {
         angular: '../lib/angular',
-        text: '../lib/require/text'
+        text: '../lib/require/text',
+        showdown: '../lib/showdown/showdown'
     },
     shim: {
         'angular' : {'exports' : 'angular'},
