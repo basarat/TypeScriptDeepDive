@@ -150,53 +150,14 @@ declare class Fancy{
  - Internal
  - AMD / CommonJS</markdown>
                     </section>
-
-                    <section>
-                        <h2>Syntax Limitations</h2>
-                        <p>
-                            Not everthing that can be declared in an interface can be implemented with this new syntax
-                        </p>
-                    </section>
                 </section>
 
 
 				<section>
 					<section>
 						<h1>Functions</h1>
-						<h2>Now just functions</h2>
-						<markdown>
-- Function Overloading
-- Parameters
- - Optional
- - Default
- - Rest 
-						</markdown>
-					</section>
-					<section>
-						<h2>Function overloading</h2>
-						<codeseg>
-interface IFoo{
-    test(x:string);
-    test(x:number);
-}
-						</codeseg>
-					</section>
-					<section>
-						<h2>Function overloading</h2>
-						<codeseg>
-class foo implements IFoo {
-    test(x: string);
-    test(x: number);
-    test(x: any) {
-        if (typeof x === "string") {
-            //string code
-        } else {
-            //number code
-        }
-    }
-}
-						</codeseg>
-					</section>
+						Now just functions
+					</section>					
 					<section>
 						<h2> Optional </h2> 
 						??????
@@ -206,15 +167,16 @@ function foo(req:string,optional?:number){}
 					</section>
 					<section>
 						<h2>Default</h2> 
-						
+						<p>Effectively optional. Can even do expressions</p>
 						<codeseg> 
-function foo(req:string,def:number=3){} 
+function foo( req:string, def:number=3, optional=req+def ) { } 
 						</codeseg>
 						Generates: 
 						<codeseg>
-function foo(req, def) {
+function foo(req, def, optional) {
     if (typeof def === "undefined") { def = 3; }
-}						
+    if (typeof optional === "undefined") { optional = req + def; }
+}				
 						</codeseg>
 					</section>
 					<section>
@@ -238,8 +200,206 @@ function foo(req) {
 }
 						</codeseg>
 					</section> 
-				</section>
+					<section>
+						<h2>Function overloading</h2>
+						<codeseg>
+interface IFoo{
+    test(x:string);
+    test(x:number);
+}
+						</codeseg>
+					</section>
+					<section>
+						<h2>Function overloading</h2>
+						The actual function should be able to accept any of the overload members.
+						<codeseg>
+class Foo implements IFoo {
+    test(x: string);
+    test(x: number);
+    test(x: any) {
+        if (typeof x === "string") {
+            //string code
+        } else {
+            //number code
+        }
+    }
+}
+						</codeseg>
+						The overloads go through the same code generation restrictions e.g you cannot define default values etc.
+					</section>
+					<section>
+						<h2>Function overloading</h2>
+						<codeseg>
+function f():number; // Error 
+function f(x:any):any{
+}
 
+function g():number; // Okay 
+function g(x?:any):any{
+}
+
+						</codeseg>
+						PS: don't need to be in a class. 
+					</section> 
+				</section>
+				<section>
+					<section>
+						<h1>Class</h1>
+						Now called class 
+					</section>
+					<section>
+						<h2>Basic</h2>
+						<codeseg>
+class Foo{
+	public member:number;
+	
+	static stat:number = 123;
+	
+	constructor(){this.member = 123;}
+	
+	func(){
+		this.member = 256;
+	}
+}
+						</codeseg>
+					</section>
+					<section>
+						<h2>Basic</h2>
+						<codeseg>
+var Foo = (function () {
+    function Foo() {
+        this.member = 123;
+    }
+    Foo.stat = 123;
+    Foo.prototype.func = function () {
+        this.member = 256;
+    };
+    return Foo;
+})();
+
+						</codeseg>	
+					</section>
+					<section>
+						<h2>Basic</h2>
+						<codeseg>
+class Foo{
+	
+	constructor(public member){this.member = 123;}
+	
+	func(){
+		this.member = 256;
+	}
+}
+						</codeseg>
+					</section>
+					<section>
+						<h2>Cool: Member not generated</h2>
+						<codeseg>
+class Foo{
+	public member:number;
+}						
+						</codeseg>						
+						becomes: 
+						<codeseg>
+var Foo = (function () {
+    function Foo() { }
+    return Foo;
+})();
+						</codeseg>						
+					</section>
+					
+					<section>
+                        <h2>Syntax Limitations</h2>
+                        <p>
+                            Not everthing that can be declared in an interface can be implemented by a class e.g. Indexible
+                        </p>
+                    </section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Class Inheritance</h1>
+						<strong>super</strong> : Not the Australian kind. 
+					</section>			
+					
+					<section>
+						<h2>Basic</h2>
+						<codeseg>
+class FooBase{	 
+}
+
+class FooChild extends FooBase{	
+}						
+						</codeseg> 
+					</section>
+					
+					<section>
+						<h2>Basic</h2>
+						<codeseg>
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var FooBase = (function () {
+    function FooBase() { }
+    return FooBase;
+})();
+var FooChild = (function (_super) {
+    __extends(FooChild, _super);
+    function FooChild() {
+        _super.apply(this, arguments);
+
+    }
+    return FooChild;
+})(FooBase);
+						</codeseg> 
+					</section>
+					<section>
+						<h2>Static is Broken</h2>
+<codeseg>
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+</codeseg>
+vs.
+<codeseg>
+var __extends = this.__extends || function(d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function f() { this.constructor = d; }
+    f.prototype = b.prototype;
+    d.prototype = new f();
+}
+</codeseg> 
+<a href="http://typescript.codeplex.com/workitem/825">work item</a>
+					</section>
+					<section>
+						<h2>Super Cautious</h2>
+						
+					</section>
+				</section> 
+				
+				<section>
+					<section><h1>Structural Typing</h1></section>					
+					<section>
+					</section>
+				</section> 				
+				
+				<section>
+					<section><h1>Template</h1></section>					
+					<section>
+					</section>
+				</section> 				
+
+				<section>
+				Also, Structural typing
+				implicit typing and any 
+				arrays 	
+				
+				</section>
+				
 				<section>
 					<h2>Tips</h2>
 					<ul>
