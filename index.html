@@ -133,7 +133,65 @@ var y:string;
 var z:number[];
 var foo:{a:any;b:()=>any;} // powerful inline declaration
 						<codeseg>						
-					</section> 
+					</section>
+					
+					<section>
+						<h2>inline declarations</h2>
+						Offer the complete Interface syntax but inline. Syntax:
+						<codeseg>
+var __varname__: { 
+	__membername__ : __membertype__ ;
+	__membername__ : __membertype__ ;
+	// Repeat
+}
+						</codeseg>
+						e.g:
+						<codeseg>
+var x:{ 
+	() : Function; 
+	[foo:string]: number;
+	new() : string;
+}
+						</codeseg>
+					</section>		
+					
+					<section>
+						<h2>Function signature</h2>
+						<codeseg>
+// interface / inline interface implementation
+interface fooInterface{	
+	simpleSyntax():void;
+	lambdaSyntax:()=>void;
+}
+
+var fooInline:{	
+	simpleSyntax():void;
+	lambdaSyntax:()=>void;
+}
+						</codeseg>
+						Lambda signature is required for function signatures in vars / parameter type declarations. 
+					</section>		
+					<section>
+						<h2>Function signature for callables</h2>
+						A bit inconsistent.
+						<codeseg>
+
+// Simple function, When declaring a var or function arguments
+var x1 : (s: string)=>string; 
+// When saying something is callable
+var x2 : { (s: string): string; }
+interface x3{
+	(s:string):string;
+}
+
+// Errors:
+var y1 : (s: string):string;
+var y2: { (s: string)=> string; }
+interface y3{
+	(s:string)=>string;
+}
+					</codeseg>
+					</section>
 					<section> 
 						<h2>Type Inference</h2>							
 						<codeseg>
@@ -143,6 +201,8 @@ y = 123;
 
 x = "asdf"; 
 y = "asdf"; 
+
+var z={foo:123}
 						</codeseg>
 						What type is y?
 						Does the compiler give an error in this code segment?
@@ -187,42 +247,6 @@ obj=primitive; // exactly what the first line is doing
 primitive=obj; // Error  
 						</codeseg>
 						Recommendation: Just use string.
-					</section>
-					
-					<section>
-						<h2>inline declarations</h2>
-						Offer the complete Interface syntax but inline. Syntax:
-						<codeseg>
-var __varname__: { 
-	__membername__ : __membertype__ ;
-	__membername__ : __membertype__ ;
-	// Repeat
-}
-						</codeseg>
-						e.g:
-						<codeseg>
-var x:{ 
-	() : Function; 
-	[foo:string]: number;
-	new() : string;
-}
-						</codeseg>
-					</section>		
-					
-					<section>
-						<h2>Function signature<h2>
-						<codeseg>
-// interface / inline interface implementation
-interface fooInterface{	
-	simpleSyntax():void;
-	lambdaSyntax:()=>void;
-}
-
-var fooInline:{	
-	simpleSyntax():void;
-	lambdaSyntax:()=>void;
-}
-						</codeseg>
 					</section>
 				</section>
 					
@@ -377,7 +401,6 @@ var fooObject={
 	simpleSytax: function():void{},
 	lambdaSyntax: ():void=>{}	
 }
-
 // Reminder the lambda based signature was a bit different: 
 // lambdaSyntax:()=>void;
 						</codeseg> 
@@ -471,27 +494,6 @@ la = new Foo2();
 						</codeseg> 
 					</section>		
 
-					<section>
-						<h2>Class have their own brand</h2>
-						<codeseg>
-interface iFoo{
-	x:number;
-}
-class Foo1 implements iFoo{
-	x:number;
-}
-class Foo2{
-	x:number;
-}
-
-var la:iFoo;
-la = new Foo1();
-la = new Foo2(); 
-
-var fa:Foo1 = new Foo2(); //Error 
-						</codeseg>
-					</section>
-					
 					<section>
                         <h2>Syntax Limitations</h2>
                         <p>
@@ -753,30 +755,130 @@ class Example{
 					
 				</section> 		
 				
-				
 				<section>
-					<section><h1>Structural Typing</h1></section>					
+					<section><h1>Structural Typing</h1>Perhaps I can give you something else?</section>					
+					
 					<section>
-					<codeseg>
+						<h2>Class have their own brand</h2>
+						<codeseg>
+interface iFoo{
+	x:number;
+}
+class Foo1 implements iFoo{
+	x:number;
+}
+class Foo2{
+	x:number;
+}
 
+var la:iFoo;
+la = new Foo1();
+la = new Foo2(); 
+
+var fa:Foo1 = new Foo2(); //Error 
+						</codeseg>
+					</section>
+					
+					<section>					
+					<h2>That brand is too mainstream</h2>
+<b>Interfaces</b>, <b>inline</b> declarations and <b>inferred</b> structures are behaviour free. 
+					<codeseg>
+interface inter{
+	foo:number;
+}
+
+var x:inter;
+
+var y:{foo:number;}
+
+var z={foo:123}
+
+x=y=z;
+z=y=x;
 					</codeseg> 
 					</section>
+					
+					<section>
+						<h2>Its okay to have more</h2>
+						<codeseg>
+interface inter{
+	foo:number;
+}
+
+var x:inter;
+
+var y={
+	foo:123,
+	la:23
+};
+
+x = y;
+y = x; //Error
+					</codeseg>
+					</section>
+				</section> 			
+
+				<section>
+					<section><h1>Extending Built-ins</h1> You get it, I get it, But does the compiler get it?</section>					
+					<section>
+						<h2>Built-in Interfaces</h2>
+						<markdown>
+Present in lib.d.ts that ships with the typescript compiler. 						
+						</markdown>
+						<codeseg>
+interface Array {
+    toString(): string;
+    toLocaleString(): string;
+    concat(...items: _element[][]): _element[];
+    concat(...items: _element[]): _element[];
+    join(seperator?: string): string;
+						</codeseg>
+					</section>
+					
+					<section>
+						<h2>Extend them</h2>
+						Its just javascript
+						<codeseg>
+interface Array {
+  shuffle: () => any; // <-- Whatever signature you want.
+}
+
+Array.prototype.shuffle = function () { ... };
+						</codeseg>						
+					</section>
+					
 				</section> 				
+
+				<section>
+					<section><h1>Type Assertion</h1>Cause I said so!</section>					
+					<section>
+						<h2>As simple as it gets</h2>
+						<codeseg>
+// error 
+var x:HTMLCanvasElement	= document.getElementById("canvasId");
+// valid 
+var y:HTMLCanvasElement = &lt;HTMLCanvasElement&gt;document.getElementById("canvasId");
+// type inferred 	  
+var z = &lt;HTMLCanvasElement&gt;document.getElementById("canvasId");  
+						</codeseg>
+						Not type casting since you are only telling the compiler what to think, not actually changing what it is.
+					</section>
+				</section> 								
 				
 				<section>
 					<section><h1>Template</h1></section>					
 					<section>
+						<h2>template</h2>
+						<codeseg>
+						</codeseg>
 					</section>
 				</section> 				
 
 				<section>
-				Also, 
-				Structural typing
-				implicit typing and any arrays 					
-				extending builtint types
+				Also, 												
 				exploit declration spaces for interface static members 
 				declaration space and why you must import a module and not say var
-				type coersion : i'm smarter than you. e.g. when getting a canvas 
+				type assertion : i'm smarter than you. e.g. when getting a canvas 
 				Pattern : static constructor 
 				</section>
 				
