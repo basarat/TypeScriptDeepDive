@@ -119,6 +119,21 @@ interface fooInterface{
 }
                             </codeseg>
 					</section>
+					<section>
+						<h2>Open Ended</h2>
+						<codeseg>
+interface foo{
+	x:number;
+}
+interface foo{
+	y:number;
+}
+var bar:foo = {
+	x:123,
+	y:123	
+}
+						</codeseg>
+					</section>
 				</section>
 				
 				<section>
@@ -758,6 +773,129 @@ class Example{
 				</section> 		
 				
 				<section>
+					<section><h1>Internal Module</h1>Fetch boy!</section>					
+					<section>
+						<h2>Internal Modules</h2>
+						Like namespaces in C# but it is actually a singleton instance. 
+						<codeseg>
+module M{
+	var s = "test"
+	export function f(){
+		return s;
+	}	
+}
+						</codeseg>						
+						Just the <em>export</em> keyword						
+					</section>
+					<section>
+						<h2>Internal Modules</h2>
+						The variables inside the variables are only available to the current body of the module via closure. 
+						<codeseg>
+// Generated
+var M;
+(function (M) {
+    var s = "test";
+    function f() {
+        return s;
+    }
+    M.f = f;
+})(M || (M = {}));
+						</codeseg>						
+						I say current body since modules are also open ended and can therefore have more than one bodies. 
+					</section>
+					
+					<section>
+						<h2>Internal Modules</h2>
+						<codeseg>
+module M{
+	export var s = "test"
+}
+module M{
+	export var n = 123;
+}
+						</codeseg>
+						generates: 
+						<codeseg>
+var M;
+(function (M) {
+    M.s = "test";
+})(M || (M = {}));
+var M;
+(function (M) {
+    M.n = 123;
+})(M || (M = {}));
+						</codeseg>
+					</section>
+					
+					<section>
+						<h2>Quick nesting</h2>
+						<codeseg>
+module A.B.C{
+	
+}
+// same as
+module A{
+	export module B{
+		export module C{
+			
+		}
+	}
+}
+						</codeseg>
+						And you can have this side by side as modules are open ended. 
+					</section>				
+					
+					<section>
+						<h2>Aliasing</h2>						
+						<codeseg>
+module x.y.z{
+	export var n =10;
+}
+// Alias 
+import foo = x.y.z;
+console.log(foo.n);
+						</codeseg>
+						generates:
+						<codeseg>
+var foo = x.y.z;
+console.log(foo.n);
+						</codeseg> 
+					</section>
+					
+					<section>
+						<h2>Declaration Spaces</h2>
+						<markdown>
+- Types are contributed by interface , module , class.
+- Class and module also contribute a variable (constructor for class , instance for module) 
+</markdown>						
+					</section>
+
+					<section>
+						<h2>Declaration Spaces</h2>
+						"The name does not exist in the current scope". 
+						<codeseg>
+module M
+{
+    export interface P {}
+}
+
+import im = M; 
+var foo1:im.P; // Okay 
+
+var vm = M;
+var foo2:vm.P; // Error 
+						</codeseg>
+						You will still get autocomplete. 
+					</section>
+					
+					<section>
+						<h2>template</h2>
+						<codeseg>
+						</codeseg>
+					</section>					
+				</section> 	
+				
+				<section>
 					<section><h1>Structural Typing</h1>Perhaps I can give you something else?</section>					
 					
 					<section>
@@ -783,20 +921,22 @@ var fa:Foo1 = new Foo2(); //Error
 					
 					<section>					
 					<h2>That brand is too mainstream</h2>
-<b>Interfaces</b>, <b>inline</b> declarations and <b>inferred</b> structures are behaviour free. 
+Everything else <b>modules</b>, <b>interfaces</b>, <b>inline</b> declarations and <b>inferred</b> structures are behaviour free. 
 					<codeseg>
 interface inter{
 	foo:number;
 }
+module mod{
+	export var foo:number;
+}
 
-var x:inter;
-
+var w:inter;
+var x:mod;
 var y:{foo:number;}
-
 var z={foo:123}
 
-x=y=z;
-z=y=x;
+w=x=y=z;
+z=y=x=w;
 					</codeseg> 
 					</section>
 					
@@ -847,6 +987,7 @@ interface Array {
 
 Array.prototype.shuffle = function () { ... };
 						</codeseg>						
+						Prototype is an implicitly available static variable on any <em>type</em> and cannot be declared manually.
 					</section>
 					
 				</section> 				
@@ -869,22 +1010,12 @@ var z =
 					</section>
 				</section> 				
 				
+				
+				
+				
 				<section>
-					<section><h1>Declaration Spaces</h1>A binary compartment.</section>					
-					<section>
-						<h2>template</h2>
-						<codeseg>
-						</codeseg>
-					</section>
-				</section> 				
+					<section><h1>Interfaces FTW</h1></section>					
 
-				<section>
-					<section><h1>More Patterns</h1>Not patents, patterns!</section>					
-					<section>
-						<h2>template</h2>
-						<codeseg>
-						</codeseg>
-					</section>
 				</section> 								
 				
 				<section>
