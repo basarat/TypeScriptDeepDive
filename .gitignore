@@ -1,1 +1,4 @@
 .idea/workspace.xml
+./compilertests/*.d.ts
+./compilertests/*.js
+
