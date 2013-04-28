@@ -862,7 +862,7 @@ console.log(foo.n);
 						</codeseg> 
 					</section>
 					
-					<section>
+					<section id="declarationspaces">
 						<h2>Declaration Spaces</h2>
 						<markdown>
 - Types are contributed by interface , module , class.
@@ -1082,9 +1082,50 @@ interface JQuery {
 }						
 						</codeseg>						
 					</section>
-					
+				</section>
 
-				</section> 								
+				<section>
+					<section id="modellingstatics"><h1>Pattern</h1><h2>Modelling Statics</h2></section>						
+					<section>
+						<h2>Sample Class</h2>
+						Suppose you have javscript class with equivalent behaviour: 
+						<codeseg>
+class Test{
+	static foo = 123;
+	bar = 456;
+}
+						</codeseg>
+					</section>					
+					<section>
+						<h2>Simple solution</h2>
+						What the compiler will generate with --declaration flag: 
+						<codeseg>
+declare class Test {
+    static foo: number;
+    public bar: number;
+}
+						</codeseg>
+						Not open ended!
+					</section>
+					<section>
+						<h2>Manual solution</h2> 
+						Remember <a href="#declarationspaces">declaration spaces</a>? Add one to to each space: 
+						<codeseg>
+// Non static members 
+interface Test{	
+	bar:number;
+}
+						
+// Static members and constructors go here: 			
+interface TestStatic {
+	new():Test;
+	foo:number;
+}
+declare var Test:TestStatic;
+						</codeseg> 
+						And its open ended.
+					</section>
+				</section>
 				
 				<section>
 					<section><h1>Template</h1></section>					
@@ -1097,12 +1138,12 @@ interface JQuery {
 
 				<section>
 				Also,
-				exploit declration spaces for interface static members 
-				declaration space and why you must import a module and not say var				
 				Pattern : static constructor 
 				external modules 
 				Project origaniztion for external definitions. // reference d.ts 
 				declaration compiler flag 
+				also these slides are good for learning ts + angular + requirejs
+				directives added for easier editing: codeseg / markdown 
 				</section>
 				
 				<section>
@@ -1118,6 +1159,7 @@ interface JQuery {
 					</section>
 				</section>
 
+				<!--
 				<section>
 					<h2>Fantastic Ordered List</h2>
 					<ol>
@@ -1331,6 +1373,7 @@ function linkify( selector ) {
 						<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 					</form>
 				</section>
+				-->
 
 				<section class="git" data-state="git">
 					<h1>THE END</h1>
