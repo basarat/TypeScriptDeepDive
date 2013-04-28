@@ -10,10 +10,14 @@ Comments / Edits  welcome and appreciated.
 Softwares Used
 -
 Based on Revealjs. 
-Added RequireJS + Angular JS to spead up my workflow. 
+
+Added RequireJS + AngularJS to spead up my workflow. 
+
 Also have the project strapped in to use Typescript. 
 
 
-Uses
+Guidance on making changes
 -
 Added two Angular directives, markdown and codeseg for easier embedding of markdown and code segments. 
+
+All typescript files are compiled with --module amd option. 
