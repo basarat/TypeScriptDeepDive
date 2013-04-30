@@ -1077,6 +1077,18 @@ interface JQuery {
 }						
 						</codeseg>						
 					</section>
+					<section>
+						<h2>Multiple Optionals</h2>
+						Jquery: 
+						<codeseg>
+.fadeToggle( [duration ] [, easing ] [, complete ] )
+						</codeseg>
+						TypeScript:
+						<codeseg>
+fadeToggle(duration?: any, callback?: any): JQuery;
+fadeToggle(duration?: any, easing?: string, callback?: any): JQuery;
+						</codeseg>
+					</section>
 				</section>
 
 				<section>
