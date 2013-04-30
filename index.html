@@ -862,6 +862,26 @@ console.log(foo.n);
 						</codeseg> 
 					</section>
 					
+					<section>
+						<h2>Careful with naming</h2>
+						<codseg>
+module Test{
+	export class Test{		
+	}
+}							
+						</codseg>
+						<codeseg>
+							var Test;
+(function (Test) {
+    var Test = (function () {
+        function Test() { }
+        return Test;
+    })();
+    Test.Test = Test;    
+})(Test || (Test = {}));
+						</codeseg>
+					</section>
+					
 					<section id="declarationspaces">
 						<h2>Declaration Spaces</h2>
 						<markdown>
