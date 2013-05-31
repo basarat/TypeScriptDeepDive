@@ -526,6 +526,36 @@ map['gear'] = new GearWidget();
 var w = map['gear']; // w is inferred to type Widget
 						</codeseg>
                     </section>
+                    
+                    	<section>
+                        <h2>Syntax Limitations</h2>
+                        <p>
+                            Callable example
+                        </p>
+						<codeseg>
+interface Foo {
+    (): any;
+    (value: any): void;
+}
+
+function createFoo(): Foo {
+    var getFunc = () => { console.log("get"); return "foo"; }
+    var setFunc = (value: any) => { console.log("set"); }
+
+    return (value?: any) => {
+        if (value) {
+            setFunc(value);
+        } else {
+            return getFunc();
+        }
+    }
+}
+
+var f = createFoo();
+f("bar");
+f();
+						</codeseg>
+                    </section>
 					
 					<section>
 						<h2>Optional members?</h2>						
